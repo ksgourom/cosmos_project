@@ -1,0 +1,15 @@
+"includes":  # if you use any interfaces, add them here
+  - 'layer:basic'
+  - 'layer:vnfproxy'
+  - 'layer:sshproxy'
+  - 'layer:options'
+"options":
+  "basic":
+    "use_venv": !!bool "false"
+    "packages": []
+    "python_packages": []
+    "include_system_packages": !!bool "true"
+  "identifier": {}
+  "vnfproxy": {}
+  "sshproxy": {}
+"is": "identifier"

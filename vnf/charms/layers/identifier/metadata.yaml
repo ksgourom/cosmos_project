@@ -1,0 +1,21 @@
+name: identifier
+summary: "Identifier Charm"
+maintainer: "ICCS"
+description: |
+  "This charm is used to identify objects that match statues and trees"
+tags:
+  - misc
+  - osm
+  - vnf
+series:
+  - "bionic"
+subordinate: false
+#provides:
+#  provides-relation:
+#    interface: interface-name
+#requires:
+#  requires-relation:
+#    interface: interface-name
+#peers:
+#  peer-relation:
+#    interface: interface-name

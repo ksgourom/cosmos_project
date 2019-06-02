@@ -1,0 +1,14 @@
+start_identifier:
+  description: "Start the object detection server"
+  params:
+    host:
+      description: "The ip address of the host running this server"
+      type: "string"
+      default: "0.0.0.0"
+    port:
+      description: "The port the server listens to for incoming connections"
+      type: "int"
+      default: "9000"
+  required:
+    - host
+    - port
