@@ -4,3 +4,5 @@
 vnf/charms/builds
 **/*.tar.gz
 **/*py[cod]
+**/*.zip
+**/*.rar
