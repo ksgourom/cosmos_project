@@ -59,10 +59,10 @@ vnfd:vnfd-catalog:
             service-primitive:
             -   name: start-identifier
                 parameter:
-                -   name: server-ip
+                -   name: host
                     data-type:  STRING
                     mandatory: true
-                    name: server-port
+                    name: port
                     data-type: INTEGER
                     mandatory: true
             # day-1 configuration
