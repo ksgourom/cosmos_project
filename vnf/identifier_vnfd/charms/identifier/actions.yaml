@@ -32,20 +32,20 @@
     \ ssh-hostname and ssh-username."
 "get-ssh-public-key":
   "description": "Get the public SSH key for this unit."
-"start":
-  "description": "Start identifier application in VNF"
-  "params":
-    "server-ip":
-      "description": "IP address of the identifier application"
-      "type": "string"
-      "default": ""
-    "server-port":
-      "description": "Port of the identifier application"
-      "type": "string"
-      "default": ""
-  "required":
-  - "server-ip"
-  - "server-port"
+start_identifier:
+  description: "Start the object detection server"
+  params:
+    host:
+      description: "The ip address of the host running this server"
+      type: "string"
+      default: "0.0.0.0"
+    port:
+      description: "The port the server listens to for incoming connections"
+      type: "int"
+      default: "9000"
+  required:
+    - host
+    - port
 "stop":
   "description": "Stop identifier application"
 "restart":
