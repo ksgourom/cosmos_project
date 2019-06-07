@@ -57,7 +57,7 @@ vnfd:vnfd-catalog:
                 charm: identifier
             # day-2 configuration
             service-primitive:
-            -   name: start-identifier
+            -   name: start_identifier
                 parameter:
                 -   name: host
                     data-type:  STRING
