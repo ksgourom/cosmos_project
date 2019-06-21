@@ -1,9 +1,24 @@
 item {
-    id: 1
-    name: 'takis'
+  id: 1
+  name: 'William Tyndale'
 }
 
 item {
-    id: 2
-    name: 'mitsos'
+  id: 2
+  name: 'Thomas Chatteron'
+}
+
+item {
+  id: 3
+  name: 'statue3'
+}
+
+item {
+  id: 4
+  name: 'fountain'
+}
+
+item {
+  id: 5
+  name: 'tree'
 }
