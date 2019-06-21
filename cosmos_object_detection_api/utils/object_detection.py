@@ -1,3 +1,4 @@
+import datetime
 import os
 import numpy as np
 import tensorflow as tf
@@ -116,10 +117,17 @@ def translate(
     return resp
 
 
-def get_predictions(image):
+def get_predictions(image, verbose=False):
+    start = datetime.datetime.now()
     predictions = run_inference_for_single_image(image, get_graph())
-    return translate(
+    end = datetime.datetime.now() - start
+    predictions = translate(
         predictions['detection_classes'],
         predictions['detection_scores'],
         get_category_index(),
     )
+    if verbose:
+        predictions.update(
+            dict(elapsed_time="{} seconds".format(end.total_seconds()))
+        )
+    return predictions
