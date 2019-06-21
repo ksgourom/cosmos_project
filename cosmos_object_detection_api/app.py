@@ -14,7 +14,7 @@ def predict():
             image = flask.request.files["image"].read()
             image = Image.open(io.BytesIO(image))
             img_as_np_arr = load_image_as_np_array(image)
-            predictions = get_predictions(img_as_np_arr)
+            predictions = get_predictions(img_as_np_arr, verbose=True)
             response = {"status": "OK", "success": True, 'predictions': predictions}
         except (OSError, IOError) as e:
             response = {"status": "ERROR", "success": False, 'predictions': None, "message": "Error reading image"}
