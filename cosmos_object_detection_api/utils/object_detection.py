@@ -2,6 +2,7 @@ import datetime
 import os
 import numpy as np
 import tensorflow as tf
+from tensorflow.python.client import timeline
 from object_detection.utils import label_map_util
 from object_detection.utils import ops as utils_ops
 
@@ -48,9 +49,14 @@ def load_image_as_np_array(image):
     return np.expand_dims(image_np, axis=0)
 
 
-def run_inference_for_single_image(image, graph):
+def run_inference_for_single_image(image, graph, profiling_on=False):
     with graph.as_default():
         with tf.Session() as sess:
+            extra = {}
+            if profiling_on:
+                extra['options'] = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+                extra['run_metadata'] = tf.RunMetadata()
+
             # Get handles to input and output tensors
             ops = tf.get_default_graph().get_operations()
             all_tensor_names = {output.name for op in ops for output in op.outputs}
@@ -83,7 +89,8 @@ def run_inference_for_single_image(image, graph):
             # Run inference
             output_dict = sess.run(
                 tensor_dict,
-                feed_dict={image_tensor: image}
+                feed_dict={image_tensor: image},
+                **extra
             )
 
             # all outputs are float32 numpy arrays, so convert types as appropriate
@@ -94,6 +101,9 @@ def run_inference_for_single_image(image, graph):
             output_dict['detection_scores'] = output_dict['detection_scores'][0]
             if 'detection_masks' in output_dict:
                 output_dict['detection_masks'] = output_dict['detection_masks'][0]
+            if profiling_on:
+                fetched_timeline = timeline.Timeline(extra['run_metadata'].step_stats)
+                output_dict['profiling_trace'] = fetched_timeline.generate_chrome_trace_format()
     return output_dict
 
 
@@ -117,17 +127,20 @@ def translate(
     return resp
 
 
-def get_predictions(image, verbose=False):
+def get_predictions(image, verbose=False, profiling_on=False):
     start = datetime.datetime.now()
-    predictions = run_inference_for_single_image(image, get_graph())
+    predictions = run_inference_for_single_image(image, get_graph(), profiling_on)
     end = datetime.datetime.now() - start
-    predictions = translate(
+    res = translate(
         predictions['detection_classes'],
         predictions['detection_scores'],
         get_category_index(),
     )
     if verbose:
-        predictions.update(
+        res.update(
             dict(elapsed_time="{} seconds".format(end.total_seconds()))
         )
-    return predictions
+    if profiling_on:
+        res['profiling_trace'] = predictions['profiling_trace']
+
+    return res
